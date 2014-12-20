@@ -1,0 +1,55 @@
+{#
+    Copyright 2010-2014 Hector Martin "marcan" <marcan@marcan.st>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-#}
+{% extends "layout.html" %}
+
+{% block title %}{{ route.title }} {{ level.number }}: {{ level.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ route.title }} {{ level.number }}: {{ level.title }}</h1>
+    <div class="descr">by {{ level.author_text }} &bull;
+    {% if solvers %} Resuelto por
+        <span class="tooltip" href="#" title="{{ ", ".join(solvers) }}">{{ solvers|length }}</span>
+        usuario{% if solvers|length != 1 %}s{% endif %}
+    {% else %}
+        Aún no resuelto
+    {% endif %}
+    </div>
+    {% if level.state() != 'solved' %}
+    <form id="solveform" method="POST" action="{{ url_for('.solve') }}">
+        <div>
+            <label>Contraseña</label>
+            {%- if level.can_skip() %}
+            <a href="#" onClick="skip()">Saltar nivel</a>
+            {%- endif %}
+        </div>
+        <div id="password-box" class="form-input-text"><input type="password" id="password" name="password" autocomplete="off" /></div>
+        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+        <div id="solve-box"><input type="submit" id="solvebtn" value="Resolver" /></div>
+    </form>
+    {%- if level.can_skip() %}
+    <form style="display: none;" id="skipform" method="POST" action="{{ url_for('.skip') }}">
+        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+    </form>
+    {%- endif %}
+    {% else %}
+    <form id="solveform" method="GET" action="#">
+        <div><label>Contraseña</label></div>
+        <div id="password-box" class="form-input-text"><input type="password" id="password" class="form-center" name="password" value="{{ level.solved_password() }}" disabled /></div>
+        <div id="solve-box"><input type="button" id="showhidebtn" value="Mostrar" onClick="showhide()"/></div>
+    </form>
+    {% endif %}
+{%- block levelbody %}{% endblock -%}
+{% endblock %}

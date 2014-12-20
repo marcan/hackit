@@ -1,0 +1,51 @@
+{#
+    Copyright 2010-2014 Hector Martin "marcan" <marcan@marcan.st>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-#}
+{% macro render_field(field, disabled=False) %}
+    <div class="form-line">
+        {%- if field.type == 'BooleanField' %}
+        <div class="form-input">
+            {{- field()|safe }}
+            {{ field.label }}
+        {%- if field.errors %}{% for error in field.errors %}
+            <div class="form-input-error">{{ error }}</div>
+        {% endfor %}{%- endif -%}
+        </div>
+        {%- else %}
+        <div class="form-label">{{ field.label }}</div>
+        <div class="form-input">
+            {%- if field.type in ('TextField','PasswordField') %}<div class="form-input-text">{% endif %}
+            {%- if disabled -%}
+                {{- field(disabled="disabled")|safe -}}
+            {%- else -%}
+                {{- field()|safe -}}
+            {%- endif -%}
+            {%- if field.type in ('TextField','PasswordField') %}</div>{% endif %}
+        {%- if field.errors %}{% for error in field.errors %}
+            <div class="form-input-error">{{ error }}</div>
+        {% endfor %}{%- endif -%}
+        </div>
+        {%- endif %}
+    </div>
+{%- endmacro %}
+
+{% macro profile(form, register, use_seat=True) %}
+    {{- render_field(form.username, not register) }}
+    {{- render_field(form.password) }}
+    {{- render_field(form.password2) }}
+    {{- render_field(form.email) }}
+    {{- render_field(form.pubname) }}
+    {% if use_seat %}{{- render_field(form.seat) }}{% endif %}
+{%- endmacro %}

@@ -1,0 +1,32 @@
+{#
+    Copyright 2010-2014 Hector Martin "marcan" <marcan@marcan.st>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-#}
+{% extends "layout.html" %}
+{% from "macros.html" import profile, render_field %}
+
+{% block title %}Nuevo grupo - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h1>Nuevo grupo</h1>
+    <p>Todos los campos son obligatorios. Asegúrate de haber leído las
+    <a href="{{ url_for('rules') }}">Bases del concurso</a> antes de
+    registrarte. Recuerda que cada equipo sólo debe registrarse una vez.</p>
+    <form action="{{ url_for('register') }}" method="POST">
+        {{ profile(form, True, config.USE_SEAT) }}
+        {{ render_field(form.accept_rules) }}
+        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+        <input type="submit" value="Registrarse" /><br />
+    </form>
+{% endblock %}

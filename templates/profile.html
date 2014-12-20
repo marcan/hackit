@@ -1,0 +1,39 @@
+{#
+    Copyright 2010-2014 Hector Martin "marcan" <marcan@marcan.st>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-#}
+{% extends "layout.html" %}
+{% from "macros.html" import profile, render_field %}
+
+{% block title %}Editar perfil - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h1>Editar perfil</h1>
+    <p>Todos los campos son obligatorios. Deja los campos de contraseña en
+    blanco si no deseas cambiar tu contraseña.</p>
+    <form action="{{ url_for('profile') }}" method="POST">
+        {{ profile(form, False, config.USE_SEAT) }}
+        <div class="form-line">
+            <div class="form-input"><div class="form-input-button">
+                <input type="submit" value="Guardar" />
+                <input type="button" name="delete_account" value="Borrar cuenta" onclick="$('#deleteform').submit()"/><br />
+            </div>
+        </div>
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+    </form>
+    <form id="deleteform" style="display: none;" action="{{ url_for('delete_account') }}" method="POST"
+        onsubmit="return confirm_delete();">
+        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+    </form>
+{% endblock %}

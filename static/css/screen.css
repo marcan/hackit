@@ -1,0 +1,403 @@
+/*
+    Copyright 2011 Freddy Leitner "Digital Dreamer" <http://www.dreamer.de>
+    Copyright 2010-2014 Hector Martin "marcan" <marcan@marcan.st>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
+
+/* Style Reset \
+________________________________________________________________________________________________________________________________________________________________ */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+ol,ul{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;}
+article,aside,dialog,footer,header,hgroup,nav,section{display:block;}
+
+.acc { position: absolute; top: -9999px !important; left: -9999px !important; } /* Hidden accessibility items */
+
+
+/* Webfonts \
+________________________________________________________________________________________________________________________________________________________________ */
+
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('../fonts/bebasneue.eot');
+    src: url('../fonts/bebasneue.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bebasneue.woff') format('woff');
+    font-weight: normal; font-style: normal;
+}
+
+/* Page Basics and partitions \
+________________________________________________________________________________________________________________________________________________________________ */
+
+html {
+    height: 100%;
+    overflow-y: scroll;
+    background: #26282a url(../img/bglayer1.png) repeat center 0;
+}
+body {
+    height: 100%;
+    background: transparent url(../img/bglayer2.png) repeat-x center 0;
+}
+#lorem {
+    overflow: hidden;
+    min-height: 100%; width: 960px; margin: 0 auto;
+    background: transparent url(../img/bglayer3.png) repeat center 0;
+    box-shadow: 0 0 32px rgba(0,0,0,0.33);
+}
+#ipsum {
+    overflow: hidden;
+    min-height: 100%; width: 100%;
+    background: transparent url(../img/bglayer4.png) no-repeat;
+}
+#content {
+    overflow: hidden;
+    padding: 24px 48px;
+}
+#content-main {
+    float: left;
+    width: 592px;
+}
+#content-aside {
+    float: right;
+    width: 224px;
+}
+#logo_omega {
+    margin-top: -25px;
+    margin-bottom: -10px;
+}
+#footer {
+    width: 592px; padding: 24px 48px;
+}
+
+aside section, article {
+    margin: 24px 0;
+}
+
+.descr {
+    margin-top: -16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+}
+
+#solveform div {
+    text-align: center;
+}
+#solveform div label {
+    font: 22px BebasNeueRegular,Arial,Helvetica,sans-serif;
+}
+#password-box {
+    display: inline-block;
+    width: 83%;
+}
+#solve-box {
+    display: inline-block;
+    width: 14.5%;
+}
+#solve-box input {
+    height: 24px;
+}
+#solveform div a {
+    width: 120px;
+    margin-left: -120px;
+    float: right;
+    text-align: right;
+}
+
+#solvedesc textarea {
+    height: 160px;
+    width: 100%; border: 0;
+    background: #d3d3d4;
+    color: #26282a;}
+
+#descrform {
+    text-align: center;
+}
+
+#continue {
+    width: 100px;
+}
+
+.form-center {
+    text-align: center;
+}
+
+#password {
+}
+
+#solvebtn, #showhidebtn {
+    width: 100%;
+}
+
+
+/* Header \
+________________________________________________________________________________________________________________________________________________________________ */
+
+#header {
+    position: relative;
+    height: 160px; padding-top: 60px;
+}
+#header h1 {
+    /* Yes, sorry, no logo due to time constraints. I'm painfully aware of that. Maybe next year. */
+    position: absolute; top: 80px; left: 48px;
+    height: 112px; margin: 0;
+    font-size: 88px; line-height: 1; letter-spacing: -2px; text-shadow: 0 2px 4px rgba(0,0,0,0.67);
+}
+#header h1 span {
+    font-size: 56px;
+}
+
+
+/* Page Navigation \
+________________________________________________________________________________________________________________________________________________________________ */
+
+#nav-main {
+    position: absolute; top: 172px; left: 38px;
+}
+#nav-meta {
+    position: absolute; top: 172px; right: 38px;
+}
+#nav ul {
+    overflow: hidden;
+}
+#nav li {
+    float: left;
+    padding: 0 5px; margin: 0;
+    background: none;
+}
+#nav a {
+    display: block;
+    padding: 5px;
+    color: #cbcccd; color: rgba(255,255,255,0.70); font: 28px/28px BebasNeueRegular,Arial,Helvetica,sans-serif; text-decoration: none;
+}
+#nav a:hover {
+    color: #fff;
+}
+
+
+
+/* Generic Content Formatting \
+________________________________________________________________________________________________________________________________________________________________ */
+
+body {
+    color: #cbcccd; color: rgba(255,255,255,0.80); font: 14px/18px Arial,Helvetica,sans-serif; text-shadow: 0 1px 1px rgba(0,0,0,0.67);
+}
+
+h1 {
+    margin-bottom: 12px;
+    font: 32px/36px BebasNeueRegular,Arial,Helvetica,sans-serif;
+}
+h2 {
+    margin-bottom: 12px;
+    font: 24px/28px BebasNeueRegular,Arial,Helvetica,sans-serif;
+}
+p, ul {
+    margin-bottom: 12px;
+}
+
+ul li {
+    padding-left: 16px; margin-bottom: 4px;
+    background: transparent url(../img/bullet.png) no-repeat 2px 6px;
+}
+
+a {
+    color: #da7577; color: rgb(255,127,127,0.8);
+    -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out;
+}
+a:hover {
+    color: #fff;
+}
+strong {
+    font-weight: bold;
+}
+em {
+    font-style: italic;
+}
+
+aside h1 {
+    border-bottom: 1px solid #cbcccd;
+    font-size: 24px; line-height: 28px;
+}
+
+#footer {
+    color: #8e949a; font-size: 11px; line-height: 14px;
+}
+
+/* Forms */
+
+form {
+    padding: 10px; margin-bottom: 10px; border: 1px solid #3e444b; border: 1px solid rgba(0,0,0,0.2);
+    background-color: #4d555e; background-color: rgba(0,0,0,0.1);
+}
+.form-line {
+    padding: 3px 0 2px;
+}
+input, textarea, button {
+    font: 14px/18px Arial,Helvetica,sans-serif;
+}
+.form-label label {
+    display: block;
+}
+.form-input-text {
+    display: block;
+    border: 1px solid #000;
+    padding: 2px 4px;
+    background: #d3d3d4;
+}
+.form-input-text input {
+    width: 100%; border: 0;
+    background: #d3d3d4;
+    color: #26282a;
+}
+.form-input-button input {
+    border: 1px solid #000; padding: 2px 4px;
+    background: #3f454d; background: -webkit-gradient(linear,left top,left bottom,from(#787f87),to(#3f454d)); background: -moz-linear-gradient(top,#787f87,#3f454d);
+    color: #fff; text-shadow: 0 -1px 1px #000;
+    cursor: pointer;
+}
+.form-input-button input:focus, .form-input-button input:active {
+    background: #3f454d;
+}
+.form-input-error {
+    padding: 1px 0;
+    font-size: 11px; line-height: 14px; color: #dddf15;
+}
+
+#content-main .form-line {
+    overflow: hidden;
+}
+#content-main .form-label {
+    float: left;
+    width: 192px; padding-top: 3px;
+    text-align: right;
+}
+#content-main .form-input {
+    float: right;
+    width: 368px;
+}
+
+/* Columns */
+
+.cols {
+    overflow: hidden;
+    margin-left: -17px;
+}
+.col13 {
+    float: left;
+    width: 186px; margin-left: 17px;
+}
+.col13 table {
+    width: 184px;
+    table-layout: fixed;
+    font-size: 95%;
+}
+.col13 table .prize {
+    width: 12px;
+}
+.col13 table th .levels {
+    float: right;
+}
+.col13 table th.group {
+    width: 134px;
+}
+.col13 table .levels {
+    width: 12px;
+    text-align: right;
+    overflow: visible;
+}
+.col13 table th.levels span {
+    margin-left: -60px;
+}
+.col13 table th, .col13 table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Tables */
+
+table {
+    width: 100%; border: 1px solid #3e444b; border: 1px solid rgba(0,0,0,0.2); border-collapse: collapse;
+    background-color: #4d555e; background-color: rgba(0,0,0,0.1);
+}
+th, td {
+    padding: 2px 4px;
+}
+th {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    font-size: 11px; line-height: 14px;
+    background-color: rgba(0,0,0,0.1);
+}
+td {
+}
+td.levels {
+    text-align: center;
+}
+tr.odd td {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Levels */
+
+li.closed {
+    background: transparent url(../img/bullets_levels.png) no-repeat 0 3px;
+    color: rgba(255,255,255,0.33);
+}
+li.open {
+    background: transparent url(../img/bullets_levels.png) no-repeat 0 -77px;
+}
+li.skipped {
+    background: transparent url(../img/bullets_levels.png) no-repeat 0 -157px;
+}
+li.open a, li.skipped a {
+    color: rgba(160,190,255,0.8);
+}
+li.solved {
+    background: transparent url(../img/bullets_levels.png) no-repeat 0 -257px;
+}
+li.solved a {
+    color: rgba(127,255,127,0.8);
+}
+
+/* Flash messages */
+
+.flash {
+    padding: 10px; margin: 24px 0; border: 1px solid #ff0; border: 1px solid #fff;
+    background: #5f494e; background: rgba(255,255,255,0.1); box-shadow: 0 0 2px rgba(255,255,255,0.5);
+    color: #fff;
+}
+
+.sidebox {
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(0,0,0,0.2);
+    padding: 10px;
+    background-color: rgba(0,0,0,0.1);
+    text-align: center;
+    font-size: 70%;
+}
+
+.tooltip {
+    cursor: help;
+    text-decoration:none;
+    border-bottom:1px dotted #cbcccd;
+}

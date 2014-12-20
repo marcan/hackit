@@ -1,0 +1,133 @@
+{#
+    Copyright 2011 Freddy Leitner "Digital Dreamer" <http://www.dreamer.de>
+    Copyright 2010-2014 Hector Martin "marcan" <marcan@marcan.st>
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-#}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{{ config.SITE_NAME }}{% endblock %}</title>
+        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='css/screen.css') }}">
+        <!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='css/screen_ie6.css') }}"><![endif]-->
+        {#<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}" sizes="16x16" />-#}
+        <script src="{{ url_for('static', filename='js/jquery-1.6.1.min.js') }}" type="text/javascript"></script>
+        <script src="{{ url_for('static', filename='js/scripts.js') }}" type="text/javascript"></script>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+
+        <div id="lorem"><div id="ipsum">
+
+            <p class="acc"><a href="#content">Ir al contenido</a></p>
+
+            <header id="header">
+                <h1>{{ config.SITE_MAINTITLE }} <span class="whentohack">{{ config.SITE_SUBTITLE }}</span></h1>
+
+                <nav id="nav">
+
+                    <h1 class="acc">Menú principal</h1>
+                    <ul id="nav-main">
+                        <li><a href="{{ url_for('index') }}">Introducción</a></li>
+                        <li><a href="{{ url_for('rules') }}">Bases</a></li>
+                        <li><a href="{{ url_for('ranking') }}">Ranking</a></li>
+                        <li><a href="{{ url_for('about') }}">Acerca de</a></li>
+                    </ul>
+
+                </nav>
+
+            </header>
+
+            <div id="content">
+
+                <section id="content-main">
+                    {%- for msg in get_flashed_messages() %}
+                        <div class="flash">{{ msg }}</div>
+                    {%- endfor %}
+
+                    <article class="article">
+                        {%- block content %}{% endblock %}
+                    </article>
+
+                </section>
+                <aside id="content-aside">
+                    {% if g.user is none %}
+                    <section>
+                        <h1>Login</h1>
+                        <form action="{{ url_for('login') }}" method="post">
+                            <div class="form-line">
+                                <div class="form-label"><label for="username">Nombre de usuario</label></div>
+                                <div class="form-input"><div class="form-input-text"><input id="username" name="username" type="text" value=""></div></div>
+                            </div>
+                            <div class="form-line">
+                                <div class="form-label"><label for="password">Contraseña</label></div>
+                                <div class="form-input"><div class="form-input-text"><input id="password" name="password" type="password" value=""></div></div>
+                            </div>
+                            <div class="form-line">
+                                <div class="form-label"></div>
+                                <div class="form-input"><div class="form-input-button"><input type="submit" value="Identificarse"></div></div>
+                            </div>
+                            <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}" />
+                        </form>
+                        <p>¿No tienes cuenta? <a href="{{ url_for('register') }}">¡Regístrate!</a></p>
+                    </section>
+                    {% else %}
+                    <section>
+                        <h1>Usuario</h1>
+                        <p>Estás identificado como <strong>{{ g.user.username }}</strong>.<br>
+                        <a href="{{ url_for('profile') }}">Editar tu perfil</a> | <a href="{{ url_for('logout') }}">Logout</a></p>
+                    </section>
+                    {% endif %}
+
+                    {%- for route, levels in g.sb_routes %}
+                    <section>
+                        <h1>{{ route.title }}</h1>
+                        <ul>
+                        {%- for level in levels %}
+                            <li class="{{ level.state() }}">
+                                {%- if level.state() != 'closed' -%}
+                                    <a href="{{ url_for(level.name + '.index') }}">Nivel {{ level.number }} - {{ level.title }}</a>
+                                {%- else -%}
+                                    Nivel {{ level.number }}
+                                {%- endif -%}
+                            </li>
+                        {%- endfor %}
+                        </ul>
+                    </section>
+                    {%- endfor %}
+                    {%- block aside %}{% endblock %}
+                </aside>
+
+            </div>
+
+            <div id="footer">
+
+                <p>
+                    {{ config.SITE_NAME }} by <a href="mailto:{{ config.ADMIN_EMAIL }}">{{ config.ADMIN_NAME }}</a> &amp; <a href="{{ url_for('about') }}">friends</a>.
+                    Design by <a href="http://www.dreamer.de">Digital Dreamer</a>.<br />
+                    Built with the <a href="https://github.com/marcan/hackit">Hack It Framework</a>
+                    and powered by <a href="http://python.org">Python</a>,
+                    <a href="http://www.postgresql.org/">PostgreSQL</a>,
+                    <a href="http://flask.pocoo.org/">Flask</a>,
+                    <a href="http://www.sqlalchemy.org/">SQLAlchemy</a>,
+                    &amp; more.
+                </p>
+
+            </div>
+
+        </div></div>
+
+    </body>
+</html>
