@@ -34,6 +34,10 @@ $(function() {
         window.location = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
         return false;
     });
+    $('#password').keyup(function(e){
+        $.ajax('{{ url_for('.stupidcheck') }}', {'data': {'password': $('#password').val()}})
+        .done(function(d) { $('#result').html(d); });
+    });
 });
 </script>
 {% endblock %}
@@ -47,4 +51,5 @@ $(function() {
         </a>
     </p>
     <pre>Python {{ version }}.</pre>
+    <pre id="result"></pre>
 {% endblock %}
