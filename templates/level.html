@@ -15,7 +15,7 @@
 -#}
 {% extends "layout.html" %}
 
-{% block title %}{{ route.title }} {{ level.number }}: {{ level.title }}{% endblock %}
+{% block title %}{{ route.title }} {{ level.number }}: {{ level.title }} - {{ super() }}{% endblock %}
 
 {% block content %}
     <h1>{{ route.title }} {{ level.number }}: {{ level.title }}</h1>
