@@ -241,8 +241,11 @@ for r in level.routes:
 @app.before_request
 def setup_tasks():
     if request.method == 'POST':
-        if ('csrf_token' not in session or 'csrf_token' not in request.form or
-                request.form['csrf_token'] != session['csrf_token']):
+        if ('csrf_token' not in session or (
+            ('csrf_token' not in request.form or
+                request.form['csrf_token'] != session['csrf_token'])
+            and ('X-CSRF' not in request.headers or
+                 request.headers['X-CSRF'] != session['csrf_token']))):
             flash(u'Error de token CSRF')
             return redirect(url_for('index'))
 
